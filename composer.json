@@ -1,0 +1,43 @@
+{
+    "name": "larsmarkus-studio/craft-indexnow",
+    "description": "Tells search engines about new, changed and deleted entries via IndexNow, in a queue job. Craft CMS 5.",
+    "type": "craft-plugin",
+    "license": "MIT",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "indexnow",
+        "seo"
+    ],
+    "support": {
+        "source": "https://github.com/larsmarkus-studio/craft-indexnow",
+        "issues": "https://github.com/larsmarkus-studio/craft-indexnow/issues"
+    },
+    "require": {
+        "php": "^8.2",
+        "craftcms/cms": "^5.6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "larsmarkusstudio\\indexnow\\": "src/"
+        }
+    },
+    "extra": {
+        "handle": "lms-indexnow",
+        "name": "IndexNow",
+        "developer": "Lars Markus",
+        "developerUrl": "https://larsmarkus.studio",
+        "documentationUrl": "https://github.com/larsmarkus-studio/craft-indexnow",
+        "class": "larsmarkusstudio\\indexnow\\Plugin"
+    },
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        },
+        "sort-packages": true,
+        "optimize-autoloader": true
+    }
+}
