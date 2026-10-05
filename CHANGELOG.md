@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 - 2026-10-05
 
 - The key route only matches the configured key, so other `*.txt` templates and routes no longer 404
 - Deleting an entry that was never live no longer submits its URL
