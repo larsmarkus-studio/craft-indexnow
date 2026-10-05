@@ -20,8 +20,8 @@ use larsmarkusstudio\indexnow\Plugin;
 class Submitter extends Component
 {
     /**
-     * Published saves only: no drafts (including autosaves), revisions, propagated copies
-     * or resaves, and only sections that are configured.
+     * Published saves only: no drafts (including autosaves), revisions, propagated copies,
+     * resaves or nested (Matrix) entries, and only sections that are configured.
      */
     public function shouldSubmit(mixed $element): bool
     {
@@ -29,20 +29,21 @@ class Submitter extends Component
 
         return $element instanceof Entry
             && $settings->isEnabled()
+            && $element->getSection() !== null
             && !ElementHelper::isDraftOrRevision($element)
             && !$element->propagating
             && !$element->resaving
-            && (!$settings->sections || in_array($element->getSection()?->handle, $settings->sections, true));
+            && (!$settings->sections || in_array($element->getSection()->handle, $settings->sections, true));
     }
 
     /**
-     * URLs of all sites the entry is live in. With $anyStatus (deletes) also those that are
-     * about to disappear.
+     * URLs of all sites the entry is live in. Before a delete that is still the public set,
+     * so never-published URLs aren't leaked.
      */
-    public function queueEntry(Entry $entry, bool $anyStatus = false): void
+    public function queueEntry(Entry $entry): void
     {
         $entries = Entry::find()->id($entry->id)->site('*')->unique(false)->uri(':notempty:')
-            ->status($anyStatus ? null : Entry::STATUS_LIVE)->all();
+            ->status(Entry::STATUS_LIVE)->all();
 
         $this->queueUrls($entries);
     }

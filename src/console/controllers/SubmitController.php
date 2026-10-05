@@ -26,7 +26,7 @@ class SubmitController extends Controller
             return ExitCode::CONFIG;
         }
 
-        $entries = Entry::find()->section($settings->sections ?: null)->site('*')->unique(false)
+        $entries = Entry::find()->section($settings->sections ?: '*')->site('*')->unique(false)
             ->status(Entry::STATUS_LIVE)->uri(':notempty:')->each();
 
         $this->stdout('Queued ' . $plugin->submitter->queueUrls($entries) . " URLs.\n");

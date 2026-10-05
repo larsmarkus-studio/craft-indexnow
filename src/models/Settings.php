@@ -10,7 +10,7 @@ use craft\helpers\App;
 
 /**
  * Plugin settings. Override in `config/lms-indexnow.php` (multi-environment arrays work).
- * Values starting with `$` are read from the environment.
+ * `key` may be an env var reference (`$INDEXNOW_KEY`); for the others use `App::env()` in the config file.
  */
 class Settings extends Model
 {

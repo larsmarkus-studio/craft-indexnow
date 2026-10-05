@@ -30,6 +30,9 @@ assert(count($chunks) === 2 && count($chunks[1]) === 1);
 
 assert(Payload::chunks('example.com', []) === []);
 
+// No site host: relative URLs (host '') must not slip through
+assert(Payload::chunks('', ['/a', 'not a url']) === []);
+
 $body = Payload::body('example.com', 'abcd1234', 'https://example.com/abcd1234.txt', [3 => 'https://example.com/a']);
 assert($body['urlList'] === ['https://example.com/a'] && $body['host'] === 'example.com');
 

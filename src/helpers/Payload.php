@@ -21,6 +21,11 @@ class Payload
      */
     public static function chunks(string $host, array $urls, int $max = self::MAX_URLS): array
     {
+        // No host (relative or unresolved base URL): IndexNow would reject the request
+        if ($host === '') {
+            return [];
+        }
+
         $own = array_filter($urls, fn($url) => strcasecmp((string)parse_url($url, PHP_URL_HOST), $host) === 0);
 
         return array_chunk(array_values(array_unique($own)), $max);

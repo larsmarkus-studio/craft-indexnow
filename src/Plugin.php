@@ -37,8 +37,11 @@ class Plugin extends BasePlugin
     {
         parent::init();
 
+        // Only the literal key, so other `*.txt` templates and routes keep working
         Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_SITE_URL_RULES, function (RegisterUrlRulesEvent $event) {
-            $event->rules['<key:[A-Za-z0-9-]{8,128}>.txt'] = 'lms-indexnow/key/index';
+            if ($this->getSettings()->isEnabled()) {
+                $event->rules[$this->getSettings()->getKey() . '.txt'] = 'lms-indexnow/key/index';
+            }
         });
 
         // Fires after the save transaction commits
@@ -51,7 +54,7 @@ class Plugin extends BasePlugin
         // Before: afterwards the other sites' URLs can no longer be looked up
         Event::on(Elements::class, Elements::EVENT_BEFORE_DELETE_ELEMENT, function (ElementEvent $event) {
             if ($this->submitter->shouldSubmit($event->element)) {
-                $this->submitter->queueEntry($event->element, true);
+                $this->submitter->queueEntry($event->element);
             }
         });
     }

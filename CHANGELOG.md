@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- The key route only matches the configured key, so other `*.txt` templates and routes no longer 404
+- Deleting an entry that was never live no longer submits its URL
+- Nested (Matrix) entries are skipped, in saves and in `submit/all`
+- Sites without an absolute base URL are skipped instead of producing failing jobs
+
 ## 0.1.0 - 2026-10-05
 
 First release.

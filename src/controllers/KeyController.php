@@ -16,16 +16,17 @@ class KeyController extends Controller
 {
     protected array|bool|int $allowAnonymous = true;
 
-    public function actionIndex(string $key): Response
+    public function actionIndex(): Response
     {
         $settings = Plugin::getInstance()->getSettings();
 
-        if (!$settings->isEnabled() || !hash_equals($settings->getKey(), $key)) {
+        // Also reachable as `actions/lms-indexnow/key/index`, so check here too
+        if (!$settings->isEnabled()) {
             throw new NotFoundHttpException();
         }
 
         $this->response->getHeaders()->set('Content-Type', 'text/plain; charset=utf-8');
 
-        return $this->asRaw($key);
+        return $this->asRaw($settings->getKey());
     }
 }
