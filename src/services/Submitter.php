@@ -36,13 +36,19 @@ class Submitter extends Component
             && (!$settings->sections || in_array($element->getSection()->handle, $settings->sections, true));
     }
 
+    /** Enabled sites only: `site('*')` also matches disabled ones, whose pages and key file 404. */
+    public function siteIds(): array
+    {
+        return array_map(fn($site) => $site->id, Craft::$app->getSites()->getAllSites(false));
+    }
+
     /**
      * URLs of all sites the entry is live in. Before a delete that is still the public set,
      * so never-published URLs aren't leaked.
      */
     public function queueEntry(Entry $entry): void
     {
-        $entries = Entry::find()->id($entry->id)->site('*')->unique(false)->uri(':notempty:')
+        $entries = Entry::find()->id($entry->id)->siteId($this->siteIds())->unique(false)->uri(':notempty:')
             ->status(Entry::STATUS_LIVE)->all();
 
         $this->queueUrls($entries);

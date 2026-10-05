@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 - 2026-10-05
+
+- Disabled sites are skipped: `site('*')` matched them, so their pages and key file 404'd but their URLs were still submitted (`submit/all` and saves)
+
 ## 0.2.0 - 2026-10-05
 
 - The key route only matches the configured key, so other `*.txt` templates and routes no longer 404
